@@ -32,4 +32,7 @@ fs.createReadStream(demoFile, { encoding: 'utf8' })
 .on('finish', () => {
   console.log(result)
 })
+.on('end', () => {
+  console.log('read event....', result)
+})
 
