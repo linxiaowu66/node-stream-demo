@@ -1,38 +1,25 @@
-const fs = require('fs')
 const { Transform } = require('stream')
 
-const demoFile = 'test.txt'
-
-class middleware extends Transform {
+class myTransform extends Transform {
   constructor(options) {
     super(options);
   }
-  _transform(data, encoding, done) {
-    // console.log('in middleware: ', data)
-    let block
-    const lines = data.toString().split(/\n/)
-
-    while (lines.length) {
-      block = `${lines.shift()} ++++`
-      if (block) {
-        this.push(block)
-      }
-    }
-
+  _transform(chunk, encoding, done) {
+    const upperChunk = chunk.toString().toUpperCase()
+    this.push(upperChunk)
     done()
   }
+  _flush(cb){
+    /* at the end, output the our additional info */
+    this.push('this is flush data\n')
+    cb(null, 'appending more data\n')
+  }
 }
-let result = ''
-fs.createReadStream(demoFile, { encoding: 'utf8' })
-.on('error', () => console.error('read file stream failure'))
-.pipe(new middleware({ objectMode: true }))
-.on('data', (data) => {
-  result += data
-})
-.on('finish', () => {
-  console.log(result)
-})
-.on('end', () => {
-  console.log('read event....', result)
-})
+
+const tss = new myTransform()
+
+tss.pipe(process.stdout)
+tss.write('hello transform stream\n')
+tss.write('another line\n')
+tss.end()
 

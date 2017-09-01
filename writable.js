@@ -6,7 +6,7 @@ class MyWritable extends Writable {
     super(options);
   }
   _write(chunk, encoding, callback) {
-    console.log('-------', chunk)
+    console.log('we write--', chunk)
     // callback()
   }
 }
