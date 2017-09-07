@@ -1,4 +1,4 @@
-const { Duplex } = require('stream');
+const { Duplex, Writable, Readable } = require('stream');
 
 
 class MyDuplex extends Duplex {
@@ -20,6 +20,9 @@ class MyDuplex extends Duplex {
 const dp = new MyDuplex({
   readableObjectMode: true
 })
+
+console.log(dp instanceof Writable)
+console.log(dp instanceof Readable)
 
 dp.on('data', (chunk) => {
   console.log('we read: ', chunk)
