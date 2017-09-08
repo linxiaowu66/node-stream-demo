@@ -618,7 +618,7 @@ readable-stream@1.1.x:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-readable-stream@2:
+readable-stream@2, readable-stream@^2.1.5:
   version "2.3.3"
   resolved "http://r.cnpmjs.org/readable-stream/download/readable-stream-2.3.3.tgz#368f2512d79f9d46fdfc71349ae7878bbc1eb95c"
   dependencies:
@@ -736,6 +736,18 @@ source-map@~0.2.0:
   dependencies:
     amdefine ">=0.0.4"
 
+split2@^2.1.1:
+  version "2.1.1"
+  resolved "http://registry.npm.taobao.org/split2/download/split2-2.1.1.tgz#7a1f551e176a90ecd3345f7246a0cfe175ef4fd0"
+  dependencies:
+    through2 "^2.0.2"
+
+split@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/split/download/split-1.0.1.tgz#605bd9be303aa59fb35f9229fbea0ddec9ea07d9"
+  dependencies:
+    through "2"
+
 sshpk@^1.7.0:
   version "1.13.1"
   resolved "http://r.cnpmjs.org/sshpk/download/sshpk-1.13.1.tgz#512df6da6287144316dc4c18fe1cf1d940739be3"
@@ -771,6 +783,17 @@ string_decoder@~1.0.3:
 stringstream@~0.0.4:
   version "0.0.5"
   resolved "http://r.cnpmjs.org/stringstream/download/stringstream-0.0.5.tgz#4e484cd4de5a0bbbee18e46307710a8a81621878"
+
+through2@^2.0.2, through2@^2.0.3:
+  version "2.0.3"
+  resolved "http://registry.npm.taobao.org/through2/download/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
+  dependencies:
+    readable-stream "^2.1.5"
+    xtend "~4.0.1"
+
+through@2:
+  version "2.3.8"
+  resolved "http://registry.npm.taobao.org/through/download/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
 
 thunkify@^2.1.2:
   version "2.1.2"
@@ -872,3 +895,7 @@ xmlbuilder@~9.0.1:
 xregexp@2.0.0:
   version "2.0.0"
   resolved "http://r.cnpmjs.org/xregexp/download/xregexp-2.0.0.tgz#52a63e56ca0b84a7f3a5f3d61872f126ad7a5943"
+
+xtend@~4.0.1:
+  version "4.0.1"
+  resolved "http://registry.npm.taobao.org/xtend/download/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"

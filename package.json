@@ -13,7 +13,9 @@
     "ali-oss": "^4.10.1",
     "co": "^4.6.0",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "split2": "^2.1.1",
+    "through2": "^2.0.3"
   },
   "repository": {
     "type": "git",

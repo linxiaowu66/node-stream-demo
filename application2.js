@@ -1,55 +1,42 @@
-const request = require('request-promise');
-const oss = require('ali-oss')
-const co = require('co')
+const split = require('split2');
+const through2 = require('through2');
 const stream = require('stream')
+const fs = require('fs')
 
-const store = oss({
-  accessKeyId: 'UEHev336kKjrohZC',
-  accessKeySecret: 'sYssMmpsAmfgf06zQe4QZCRlmoDnHz',
-  bucket: 'node-stream-test',
-  region: 'oss-cn-hangzhou'
-})
-
-class HungryStream extends stream.Duplex {
-  constructor(options) {
-    super(options);
-    this.waiting = false;
-  }
-
-  _write(chunk, encoding, callback) {
-    this.waiting = false;
-    this.push(`\u001b[32m${chunk}\u001b[39m`);
-    callback();
-  }
-
-  _read(size) {
-    if (!this.waiting) {
-      this.push('Feed me data! > ');
-      this.waiting = true;
+const parseCSV = () => {
+  let templateKeys = [];
+  let parseHeadline = true;
+  return through2.obj((data, enc, cb) => {
+    if (parseHeadline) {
+      templateKeys = data.toString().split(',');
+      parseHeadline = false;
+      return cb(null, null);
     }
-  }
-}
 
-function uploadToOss() {
-  const timestamp = Date.now()
-  try {
-    request({
-      url: 'http://node-stream-test.oss-cn-hangzhou.aliyuncs.com/apic14052.jpg',
-      method: 'GET'
-    })
-    // .then(resp => {
-    //   co(function* () {
-    //     return yield store.put(`apic_${timestamp}.png`,
-    //     new Buffer(resp)
-    //     )
-    //   })
-    //   .then(val => {
-    //     console.log(val)
-    //   })
-    // })
-  } catch (err) {
-    console.log(err)
-  }
-}
+    const entries = data.toString().split(',');
+    const obj = {};
 
-uploadToOss()
+    templateKeys.forEach((el, index) => {
+      obj[el] = entries[index];
+    });
+
+    return cb(null, obj);
+  });
+};
+
+const toJSON = () => {
+  let objs = [];
+  return through2.obj(function(data, enc, cb) {
+    objs.push(data);
+    cb(null, null);
+  }, function(cb) {
+    this.push(JSON.stringify(objs));
+    cb();
+  });
+};
+
+fs.createReadStream('test.csv')
+.pipe(split())
+.pipe(parseCSV())
+.pipe(toJSON())
+.pipe(process.stdout);
